@@ -16,17 +16,19 @@ namespace AssignmentPL.Controllers
             return View(departments);
         }
 
+        [HttpGet]
         public IActionResult Create()
         {
 
 
             return View();
         }
+
         [HttpPost]
         public IActionResult Create(DepartmentRequest request)
         {
             if (!ModelState.IsValid)
-                
+                return View(request);
             //var rowsAffected = departmentServices.add(request);
             //if (rowsAffected > 0)
             //    return RedirectToAction("Index");
@@ -35,7 +37,7 @@ namespace AssignmentPL.Controllers
             try
             {
                 var result = departmentServices.add(request);
-                if (result > 0) 
+                if (result > 0)
                     return RedirectToAction(nameof(Index));
                 ModelState.AddModelError(string.Empty, "Failed to create department.");
 
@@ -60,7 +62,6 @@ namespace AssignmentPL.Controllers
             var department = departmentServices.GetById(id.Value);
             if (department == null)
                 return NotFound();
-
             return View(department);
         }
 
@@ -72,8 +73,7 @@ namespace AssignmentPL.Controllers
             var department = departmentServices.GetById(id.Value);
             if (department == null)
                 return NotFound();
-
-            return View(department);
+            return View(department.ToUpdateRequest());
         }
 
         [HttpPost]
@@ -85,7 +85,7 @@ namespace AssignmentPL.Controllers
             {
                 var result = departmentServices.update(request);
                 if (result > 0)
-                    return RedirectToAction("Index");
+                    return RedirectToAction(nameof(Index));
                 ModelState.AddModelError(string.Empty, "Failed to update department.");
             }
             catch (Exception ex)
@@ -106,6 +106,31 @@ namespace AssignmentPL.Controllers
                 return NotFound();
 
             return View(department);
+        }
+
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeleteConfirmed(int? id)
+        {
+            if (!id.HasValue)
+                return BadRequest();
+            var department = departmentServices.GetById(id.Value);
+            try
+            {
+                
+                var isDeleted = departmentServices.delete(id.Value); 
+                if (isDeleted) 
+                    return RedirectToAction(nameof(Index));
+                ModelState.AddModelError(string.Empty, "Failed to delete department.");
+            }
+            catch (Exception ex)
+            {
+                if (webHostEnvironment.IsDevelopment())
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                else logger.LogError(ex.Message, "An error occurred while deleting a department.");
+            }
+            return View(department);
+
         }
     }
 }
