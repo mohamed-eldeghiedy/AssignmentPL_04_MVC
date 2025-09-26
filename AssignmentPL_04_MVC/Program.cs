@@ -1,7 +1,9 @@
 using AssignmentBLL.Services;
 using AssignmentDAL.Context;
+using AssignmentDAL.Entities;
 using AssignmentDAL.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AssignmentPL_04_MVC
 {
@@ -16,7 +18,12 @@ namespace AssignmentPL_04_MVC
 
             builder.Services.AddScoped<IDepartmentService, DepartmentServices>();
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
+
+            //builder.Services.AddScoped<IRepository<Department> , GenericRepository<Department>>();
+
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
             builder.Services.AddDbContext<CompanyDbContext>(options =>
             {
                 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -24,6 +31,7 @@ namespace AssignmentPL_04_MVC
                 options.UseSqlServer(connectionString);
             });
 
+            builder.Services.AddAutoMapper(typeof(AssignmentBLL.AssemblyReference).Assembly);
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace AssignmentDAL.Repositories
 {
-    public interface IDepartmentRepository : IRepository<Department>
+    public interface IEmployeeRepository : IRepository<Employee>
     {
-
+        IEnumerable<Employee> GetAll(string name);
     }
 }

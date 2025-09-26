@@ -11,8 +11,9 @@ namespace AssignmentDAL.Context
     public class CompanyDbContext(DbContextOptions<CompanyDbContext> options) : DbContext(options)
     {
         public DbSet<Department> Departments { get; set; }
+        public DbSet<Employee> Employees { get; set; }
 
-       
+
 
         override protected void OnModelCreating(ModelBuilder modelBuilder)
         {

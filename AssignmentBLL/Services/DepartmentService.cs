@@ -1,4 +1,5 @@
 ﻿using AssignmentBLL.DataTransferObjects;
+using AssignmentDAL.Entities;
 using AssignmentDAL.Repositories;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace AssignmentBLL.Services
 {
     
-        public class DepartmentServices(IDepartmentRepository departmentRepository) : IDepartmentService
+        public class DepartmentServices(IRepository<Department> departmentRepository) : IDepartmentService
         {
 
 
@@ -39,7 +40,8 @@ namespace AssignmentBLL.Services
 
             public DepartmentDetailsResponse? GetById(int id)
             {
-                return departmentRepository.GetById(id)?.ToDetailsResponse();
+                var department = departmentRepository.GetById(id);
+            return department?.ToDetailsResponse();
             }
 
             public int update(DepartmentUpdateRequest request)
