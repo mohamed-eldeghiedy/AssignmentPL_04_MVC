@@ -32,10 +32,24 @@ namespace AssignmentBLL.Services
 
        
 
-        public IEnumerable<EmployeeResponse> GetAll()
+        public IEnumerable<EmployeeResponse>  GetAll()
         {
-           var employees = employeeRepository.GetAll();
-            return mapper.Map<IEnumerable<EmployeeResponse>>(employees);
+            var employees = employeeRepository
+                 .GetAll
+                 (e=> new EmployeeResponse 
+                 { 
+                        Id = e.Id,
+                        Name = e.Name,
+                        Email = e.Email,
+                        Age = e.Age,
+                        Salary = e.Salary,
+                        IsActive = e.IsActive,
+                        EmployeeType = e.EmployeeType.ToString(),
+                        Gender = e.Gender.ToString()
+
+                 });
+            return employees;
+            //return mapper.Map<IEnumerable<EmployeeResponse>>(employees);
         }
 
         public EmployeeDetailsResponse? GetById(int id)

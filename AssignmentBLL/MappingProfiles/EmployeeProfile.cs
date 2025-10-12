@@ -15,9 +15,11 @@ namespace AssignmentBLL.MappingProfiles
         {
             CreateMap<EmployeeRequest, Employee>()
                 .ReverseMap();
-            CreateMap<EmployeeUpdateRequest, Employee>();
+            CreateMap<EmployeeUpdateRequest, Employee>().ReverseMap();
             CreateMap<Employee, EmployeeResponse>();
             CreateMap<Employee, EmployeeDetailsResponse>();
+            CreateMap<EmployeeDetailsResponse , EmployeeUpdateRequest>();
+            CreateMap< EmployeeUpdateRequest , EmployeeRequest>();
 
 
         }

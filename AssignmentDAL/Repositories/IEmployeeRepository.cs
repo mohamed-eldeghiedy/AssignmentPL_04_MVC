@@ -10,5 +10,8 @@ namespace AssignmentDAL.Repositories
     public interface IEmployeeRepository : IRepository<Employee>
     {
         IEnumerable<Employee> GetAll(string name);
+
+        IEnumerable<TResult> GetAll<TResult>(System.Linq.Expressions.Expression<Func<Employee, TResult>> resultSelector);
+        IQueryable<Employee> GetAllAsQueryable();
     }
 }
