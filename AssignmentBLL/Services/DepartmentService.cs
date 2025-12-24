@@ -11,43 +11,45 @@ using System.Threading.Tasks;
 namespace AssignmentBLL.Services
 {
     
-        public class DepartmentServices(IRepository<Department> departmentRepository) : IDepartmentService
+        public class DepartmentServices(IUnitOfWork unitOfWork ) : IDepartmentService
         {
 
 
             public int add(DepartmentRequest request)
             {
                 var department = request.ToEntity();
-                return departmentRepository.Add(department);
-            }
+                unitOfWork.Departments.Add(department);
+                return unitOfWork.SaveChanges();
+        }
 
             public bool delete(int id)
             {
-                var department = departmentRepository.GetById(id);
+                var department = unitOfWork.Departments.GetById(id);
                 if (department == null)
                 {
                     return false;
                 }
-                var result = departmentRepository.Delete(department);
-                return result > 0;
+                unitOfWork.Departments.Delete(department);
+                return unitOfWork.SaveChanges() > 0;
             }
 
             public IEnumerable<DepartmentResponse> GetAll()
             {
-                return departmentRepository.GetAll()
+                return unitOfWork.Departments.GetAll()
                       .Select(d => d.ToResponse());
             }
 
             public DepartmentDetailsResponse? GetById(int id)
             {
-                var department = departmentRepository.GetById(id);
+                var department = unitOfWork.Departments.GetById(id);
             return department?.ToDetailsResponse();
             }
 
             public int update(DepartmentUpdateRequest request)
             {
-                return departmentRepository.Update(request.ToEntity());
-            }
+               unitOfWork.Departments.Update(request.ToEntity());
+               return unitOfWork.SaveChanges();
+        }
 
         }
 }

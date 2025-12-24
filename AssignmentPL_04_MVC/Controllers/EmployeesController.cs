@@ -3,26 +3,30 @@ using AssignmentBLL.DataTransferObjects.Employee;
 using AssignmentBLL.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AssignmentPL.Controllers
 {
     public class EmployeesController(IEmployeeService employeeService 
         , ILogger<EmployeesController> logger
-        , IWebHostEnvironment env , IMapper mapper)
+        , IWebHostEnvironment env , IMapper mapper , IDepartmentService  departmentService)
         : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index( string? SearchValue)
         {
-            var employees = employeeService.GetAll();
+            if (string.IsNullOrWhiteSpace(SearchValue))
+                return View(employeeService.GetAll());
+            else
+                return View(employeeService.GetAll(SearchValue));
 
-            return View(employees);
         }
 
         [HttpGet]
         public IActionResult Add()
         {
-
-
+            var departments = departmentService.GetAll();
+            var SelectList = new SelectList(departments , "Id" ,"Name");
+            ViewBag.Departments = SelectList;
             return View();
         }
 
@@ -74,6 +78,9 @@ namespace AssignmentPL.Controllers
             var employee = employeeService.GetById(id.Value);
             if (employee == null)
                 return NotFound();
+            var departments = departmentService.GetAll();
+            var SelectList = new SelectList(departments, "Id", "Name" , employee.DepartmentId);
+            ViewBag.Departments = SelectList;
             return View(mapper.Map<EmployeeUpdateRequest>(employee) );
         }
 

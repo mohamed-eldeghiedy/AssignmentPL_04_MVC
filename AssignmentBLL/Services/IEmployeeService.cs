@@ -13,6 +13,7 @@ namespace AssignmentBLL.Services
     {
         EmployeeDetailsResponse? GetById(int id);
         IEnumerable<EmployeeResponse> GetAll();
+        IEnumerable<EmployeeResponse> GetAll(string? SearchValue );
 
         int Add(EmployeeRequest request);
         int Update(EmployeeUpdateRequest request);

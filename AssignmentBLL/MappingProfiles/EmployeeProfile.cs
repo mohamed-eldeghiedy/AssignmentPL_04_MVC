@@ -16,8 +16,10 @@ namespace AssignmentBLL.MappingProfiles
             CreateMap<EmployeeRequest, Employee>()
                 .ReverseMap();
             CreateMap<EmployeeUpdateRequest, Employee>().ReverseMap();
-            CreateMap<Employee, EmployeeResponse>();
-            CreateMap<Employee, EmployeeDetailsResponse>();
+            CreateMap<Employee, EmployeeResponse>()
+                .ForMember(d => d.Department, o => o.MapFrom(s => s.Department));
+            CreateMap<Employee, EmployeeDetailsResponse>()
+               .ForMember(d => d.Department, o => o.MapFrom(s => s.Department));
             CreateMap<EmployeeDetailsResponse , EmployeeUpdateRequest>();
             CreateMap< EmployeeUpdateRequest , EmployeeRequest>();
 

@@ -1,6 +1,7 @@
 ﻿using AssignmentDAL.Entities.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -20,5 +21,9 @@ namespace AssignmentDAL.Entities
         public DateOnly HiringDate { get; set; }
         public Gender Gender { get; set; }
         public EmployeeType EmployeeType { get; set; }
+        [NotMapped]
+        //public string? Department { get; set; }
+        public int DepartmentId { get; set; }
+        public Department Department { get; set; }
     }
 }

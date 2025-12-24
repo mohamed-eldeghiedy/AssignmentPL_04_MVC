@@ -9,27 +9,31 @@ using System.Threading.Tasks;
 
 namespace AssignmentDAL.Repositories
 {
-    public class GenericRepository<TEntity>(CompanyDbContext dbContext) : IRepository<TEntity> where TEntity :  BaseEntity
+    public class GenericRepository<TEntity>(CompanyDbContext dbContext) : IRepository<TEntity > where TEntity :  BaseEntity
     {
         protected DbSet<TEntity> _dbSet = dbContext.Set<TEntity>();
 
-        public virtual int Add(TEntity TEntity)
+        public virtual void Add(TEntity TEntity)
         {
             _dbSet.Add(TEntity);
-            return dbContext.SaveChanges();
+           
         }
 
-        public virtual int Delete(TEntity TEntity)
+        public virtual void Delete(TEntity TEntity)
         {
             TEntity.IsDeleted = true;
             _dbSet.Update(TEntity);
-            return dbContext.SaveChanges();
+          
         }
 
         public virtual IEnumerable<TEntity> GetAll(bool trackChanges = false) =>
              trackChanges ?
-                _dbSet.ToList() :
-                _dbSet.AsNoTracking()
+                _dbSet 
+            .Where(x=>!x.IsDeleted)
+            .ToList() :
+                _dbSet
+            .AsNoTracking()
+            .Where(x => !x.IsDeleted)
             .ToList();
 
 
@@ -39,10 +43,10 @@ namespace AssignmentDAL.Repositories
             return _dbSet.Find(id);
         }
 
-        public virtual int Update(TEntity TEntity)
+        public virtual void Update(TEntity TEntity)
         {
             _dbSet.Update(TEntity);
-            return dbContext.SaveChanges();
+           
         }
     }
 }

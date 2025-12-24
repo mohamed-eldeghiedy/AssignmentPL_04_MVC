@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AssignmentDAL.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -21,5 +22,6 @@ namespace AssignmentBLL.DataTransferObjects.Employee
         public string Gender { get; set; }
         [Display(Name = "Employee Type")]
         public string EmployeeType { get; set; }
+        public string ? Department { get; set; } 
     }
 }
