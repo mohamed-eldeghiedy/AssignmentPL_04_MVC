@@ -15,6 +15,6 @@ namespace AssignmentDAL.Repositories
 
         public IDepartmentRepository Departments =>departmentRepository;
 
-        public int SaveChanges()=> dbContext.SaveChanges();
+        public async Task<int> SaveChangesAsync()=> await dbContext.SaveChangesAsync();
     }
 }

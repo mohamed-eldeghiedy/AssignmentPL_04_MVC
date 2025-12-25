@@ -10,13 +10,13 @@ namespace AssignmentBLL.Services
     public interface IDepartmentService
     {
 
-        DepartmentDetailsResponse? GetById(int id);
+        Task<DepartmentDetailsResponse?> GetByIdAsync(int id);
 
-        IEnumerable<DepartmentResponse> GetAll();
+        Task <IEnumerable<DepartmentResponse>> GetAllAsync();
 
-        int update(DepartmentUpdateRequest request);
-        bool delete(int id);
+        Task<int> updateAsync(DepartmentUpdateRequest request);
+        Task<bool> deleteAsync(int id);
 
-        int add(DepartmentRequest request);
+        Task<int> addAsync(DepartmentRequest request);
     }
 }

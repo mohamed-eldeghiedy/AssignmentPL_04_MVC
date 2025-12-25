@@ -21,6 +21,7 @@ namespace AssignmentPL_04_MVC
             builder.Services.AddScoped<IEmployeeService , EmployeeService>();
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IDocumentService, DocumentService>();
 
 
             //builder.Services.AddScoped<IRepository<Department> , GenericRepository<Department>>();

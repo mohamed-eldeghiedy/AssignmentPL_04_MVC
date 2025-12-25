@@ -9,9 +9,9 @@ namespace AssignmentPL.Controllers
         IWebHostEnvironment webHostEnvironment
         ) : Controller
     {
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var departments = departmentServices.GetAll();
+            var departments = await departmentServices.GetAllAsync();
 
             return View(departments);
         }
@@ -25,7 +25,7 @@ namespace AssignmentPL.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(DepartmentRequest request)
+        public async  Task<IActionResult> Create(DepartmentRequest request)
         {
             if (!ModelState.IsValid)
                 return View(request);
@@ -36,7 +36,7 @@ namespace AssignmentPL.Controllers
             //return View(request);
             try
             {
-                var result = departmentServices.add(request);
+                var result = await departmentServices.addAsync(request);
                 if (result > 0)
                     return RedirectToAction(nameof(Index));
                 ModelState.AddModelError(string.Empty, "Failed to create department.");
@@ -55,35 +55,35 @@ namespace AssignmentPL.Controllers
             return View(request);
         }
 
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (!id.HasValue)
                 return BadRequest();
-            var department = departmentServices.GetById(id.Value);
+            var department =await departmentServices.GetByIdAsync(id.Value);
             if (department == null)
                 return NotFound();
             return View(department);
         }
 
         [HttpGet]
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (!id.HasValue)
                 return BadRequest();
-            var department = departmentServices.GetById(id.Value);
+            var department =await departmentServices.GetByIdAsync(id.Value);
             if (department == null)
                 return NotFound();
             return View(department.ToUpdateRequest());
         }
 
         [HttpPost]
-        public IActionResult Edit(DepartmentUpdateRequest request)
+        public async Task<IActionResult> Edit(DepartmentUpdateRequest request)
         {
             if (!ModelState.IsValid)
                 return View(request);
             try
             {
-                var result = departmentServices.update(request);
+                var result = await departmentServices.updateAsync(request);
                 if (result > 0)
                     return RedirectToAction(nameof(Index));
                 ModelState.AddModelError(string.Empty, "Failed to update department.");
@@ -97,11 +97,11 @@ namespace AssignmentPL.Controllers
             return View(request);
         }
 
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (!id.HasValue)
                 return BadRequest();
-            var department = departmentServices.GetById(id.Value);
+            var department = await departmentServices.GetByIdAsync(id.Value);
             if (department == null)
                 return NotFound();
 
@@ -110,15 +110,15 @@ namespace AssignmentPL.Controllers
 
 
         [HttpPost, ActionName("Delete")]
-        public IActionResult DeleteConfirmed(int? id)
+        public async Task<IActionResult> DeleteConfirmed(int? id)
         {
             if (!id.HasValue)
                 return BadRequest();
-            var department = departmentServices.GetById(id.Value);
+            var department =await departmentServices.GetByIdAsync(id.Value);
             try
             {
                 
-                var isDeleted = departmentServices.delete(id.Value); 
+                var isDeleted =await departmentServices.deleteAsync(id.Value); 
                 if (isDeleted) 
                     return RedirectToAction(nameof(Index));
                 ModelState.AddModelError(string.Empty, "Failed to delete department.");

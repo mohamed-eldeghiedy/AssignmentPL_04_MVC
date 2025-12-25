@@ -11,12 +11,12 @@ namespace AssignmentBLL.Services
 {
     public interface IEmployeeService  
     {
-        EmployeeDetailsResponse? GetById(int id);
-        IEnumerable<EmployeeResponse> GetAll();
-        IEnumerable<EmployeeResponse> GetAll(string? SearchValue );
+        Task<EmployeeDetailsResponse?> GetByIdAsync(int id);
+        Task<IEnumerable<EmployeeResponse>> GetAllAsync();
+        Task<IEnumerable<EmployeeResponse>> GetAllAsync(string? SearchValue );
 
-        int Add(EmployeeRequest request);
-        int Update(EmployeeUpdateRequest request);
-        bool Delete(int id);
+        Task<int> AddAsync(EmployeeRequest request);
+        Task<int> UpdateAsync(EmployeeUpdateRequest request);
+        Task<bool> DeleteAsync(int id);
     }
 }

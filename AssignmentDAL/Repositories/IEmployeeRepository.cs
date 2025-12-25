@@ -12,7 +12,7 @@ namespace AssignmentDAL.Repositories
     {
         //IEnumerable<Employee> GetAll(string name);
 
-        IEnumerable<TResult> GetAll<TResult>(Expression<Func<Employee, TResult>> resultSelector,
+       Task< IEnumerable<TResult>> GetAllAsync<TResult>(Expression<Func<Employee, TResult>> resultSelector,
            Expression<Func<Employee, bool>>? predicate = null);
         IQueryable<Employee> GetAllAsQueryable();
     }

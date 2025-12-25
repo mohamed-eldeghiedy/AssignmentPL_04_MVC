@@ -15,40 +15,40 @@ namespace AssignmentBLL.Services
         {
 
 
-            public int add(DepartmentRequest request)
+            public async Task<int> addAsync(DepartmentRequest request)
             {
                 var department = request.ToEntity();
                 unitOfWork.Departments.Add(department);
-                return unitOfWork.SaveChanges();
+                return await unitOfWork.SaveChangesAsync();
         }
 
-            public bool delete(int id)
+            public async Task<bool> deleteAsync(int id)
             {
-                var department = unitOfWork.Departments.GetById(id);
+                var department = await unitOfWork.Departments.GetByIdAsync(id);
                 if (department == null)
                 {
                     return false;
                 }
                 unitOfWork.Departments.Delete(department);
-                return unitOfWork.SaveChanges() > 0;
+                return await unitOfWork.SaveChangesAsync() > 0;
             }
 
-            public IEnumerable<DepartmentResponse> GetAll()
+            public async Task<IEnumerable<DepartmentResponse>> GetAllAsync()
             {
-                return unitOfWork.Departments.GetAll()
+                return (await unitOfWork.Departments.GetAllAsync())
                       .Select(d => d.ToResponse());
             }
 
-            public DepartmentDetailsResponse? GetById(int id)
+            public async Task<DepartmentDetailsResponse?> GetByIdAsync(int id)
             {
-                var department = unitOfWork.Departments.GetById(id);
-            return department?.ToDetailsResponse();
+                var department = await unitOfWork.Departments.GetByIdAsync(id);
+            return  department?.ToDetailsResponse();
             }
 
-            public int update(DepartmentUpdateRequest request)
+            public async Task<int> updateAsync(DepartmentUpdateRequest request)
             {
                unitOfWork.Departments.Update(request.ToEntity());
-               return unitOfWork.SaveChanges();
+               return await unitOfWork.SaveChangesAsync();
         }
 
         }

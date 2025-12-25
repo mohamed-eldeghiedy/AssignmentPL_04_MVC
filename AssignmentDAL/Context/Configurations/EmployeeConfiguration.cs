@@ -18,6 +18,10 @@ namespace AssignmentDAL.Context.Configurations
                 .HasColumnType("varchar")
                 .IsRequired()
                 .HasMaxLength(100);
+            builder.Property(e => e.Image)
+               .HasColumnType("varchar")
+               .IsRequired(false)
+               .HasMaxLength(256);
             builder.Property(e => e.Email)
                 .HasColumnType("varchar")
                 .IsRequired(false)

@@ -26,21 +26,21 @@ namespace AssignmentDAL.Repositories
           
         }
 
-        public virtual IEnumerable<TEntity> GetAll(bool trackChanges = false) =>
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(bool trackChanges = false) =>
              trackChanges ?
-                _dbSet 
+               await _dbSet 
             .Where(x=>!x.IsDeleted)
-            .ToList() :
-                _dbSet
+            .ToListAsync() :
+               await _dbSet
             .AsNoTracking()
             .Where(x => !x.IsDeleted)
-            .ToList();
+            .ToListAsync();
 
 
-        public virtual TEntity GetById(int id)
+        public virtual async Task<TEntity> GetByIdAsync(int id)
         {
-            _dbSet.Find(id);
-            return _dbSet.Find(id);
+            await _dbSet.FindAsync(id);
+            return await _dbSet.FindAsync(id);
         }
 
         public virtual void Update(TEntity TEntity)

@@ -10,6 +10,6 @@ namespace AssignmentDAL.Repositories
     {
         IEmployeeRepository Employees { get; }
         IDepartmentRepository Departments { get; }
-        int SaveChanges();
+        Task<int> SaveChangesAsync();
     }
 }

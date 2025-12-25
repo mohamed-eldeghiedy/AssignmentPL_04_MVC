@@ -25,5 +25,6 @@ namespace AssignmentDAL.Entities
         //public string? Department { get; set; }
         public int DepartmentId { get; set; }
         public Department Department { get; set; }
+        public String? Image{ get; set; }   
     }
 }
