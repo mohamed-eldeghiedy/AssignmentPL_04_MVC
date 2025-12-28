@@ -2,6 +2,7 @@ using AssignmentBLL.Services;
 using AssignmentDAL.Context;
 using AssignmentDAL.Entities;
 using AssignmentDAL.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -35,6 +36,8 @@ namespace AssignmentPL_04_MVC
             });
 
             builder.Services.AddAutoMapper(typeof(AssignmentBLL.AssemblyReference).Assembly);
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<CompanyDbContext>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -49,7 +52,7 @@ namespace AssignmentPL_04_MVC
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
